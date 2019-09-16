@@ -11,6 +11,7 @@ import UserSignOut from "./components/UserSignOut";
 import Authenticated from "./components/Authenticated";
 
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
 
 export default () => (
   <Router>
@@ -20,7 +21,7 @@ export default () => (
       <Switch>
         <Route exact path="/" component={Public} />
         <Route path="/authenticated" component={Authenticated} />
-        <Route path="/signin" component={UserSignIn} />
+        <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOut} />
         <Route component={NotFound} />
