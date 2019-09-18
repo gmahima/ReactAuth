@@ -1,21 +1,28 @@
 import React, { Component } from "react";
 import Data from "./Data";
+import Cookies from "js-cookie";
 import { version } from "react-dom";
 
 const Context = React.createContext();
 
 export class Provider extends Component {
+  state = {
+    authenticatedUser: Cookies.getJSON("authenticatedUser") || null
+  };
   constructor() {
     super();
     this.data = new Data();
   }
 
   render() {
+    const { authenticatedUser } = this.state;
     const value = {
+      authenticatedUser,
       data: this.data,
       actions: {
         // Add the 'actions' property and object
-        signIn: this.signIn
+        signIn: this.signIn,
+        signOUt: this.signOut
       }
     };
     return (
@@ -25,10 +32,16 @@ export class Provider extends Component {
 
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
+    Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
     return user;
   };
 
-  signOut = () => {};
+  signOut = () => {
+    this.setState({
+      authenticatedUser: null
+    });
+    Cookies.remove("authenticatedUser");
+  };
 }
 
 export const Consumer = Context.Consumer;

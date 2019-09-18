@@ -15,7 +15,7 @@ export default class UserSignUp extends Component {
 
     return (
       <div className="bounds">
-        <div className="grid-33 centered signin">
+        <div className="grid-33 centered signIn">
           <h1>Sign Up</h1>
           <Form
             cancel={this.cancel}
@@ -52,7 +52,7 @@ export default class UserSignUp extends Component {
             )}
           />
           <p>
-            Already have a user account? <Link to="/signin">Click here</Link> to
+            Already have a user account? <Link to="/signIn">Click here</Link> to
             sign in!
           </p>
         </div>
@@ -84,6 +84,9 @@ export default class UserSignUp extends Component {
           console.log(
             `${username} is successfully signed up and authenticated!`
           );
+          context.actions
+            .signIn(username, password)
+            .then(this.props.history.push("/authenticated"));
         }
       })
       .catch(e => {
